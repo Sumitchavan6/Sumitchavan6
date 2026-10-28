@@ -1,0 +1,106 @@
+{
+  "title": "Cloud & DevOps Engineer",
+  "location": "Mumbai, Maharashtra, India",
+  "status": "",
+  "bio": "Cloud engineer specialising in Azure, GCP and AWS. I deploy and run highly available infrastructure and resolve production issues through root cause analysis, within SLA.",
+  "about": "I’m a cloud engineer specialising in Azure, GCP and AWS infrastructure: virtual machines, virtual networks, firewalls and NGFW, Cloud NAT and Shared VPC. I have a track record of deploying, managing and optimising highly available systems and of resolving production issues through root cause analysis while keeping to SLAs. I’m passionate about continuous learning and delivering reliable cloud environments.",
+  "email": "chavansumit364@gmail.com",
+  "contactText": "Have a role, a project or a question about cloud and DevOps? Send a message and I’ll reply by email.",
+  "skills": [
+    "Azure",
+    "GCP",
+    "AWS",
+    "Terraform",
+    "Kubernetes",
+    "Docker",
+    "PowerShell",
+    "IAM",
+    "RBAC",
+    "Microsoft Entra ID",
+    "Virtual Machines",
+    "Azure Backup",
+    "Defender for Cloud",
+    "Compute Engine",
+    "Firewall / NGFW",
+    "Cloud NAT",
+    "Shared VPC",
+    "EC2",
+    "S3",
+    "Lambda",
+    "ITIL",
+    "Cloud Security"
+  ],
+  "learning": [],
+  "experience": [
+    {
+      "role": "Cloud Engineer",
+      "org": "Synergetics Cloud Consulting",
+      "when": "Aug 2025 – Present",
+      "location": "India",
+      "desc": "Manage multi-cloud environments across GCP, Azure and AWS tenants for multiple customers, owning day-to-day operations, deployments and incident resolution within SLA timelines."
+    },
+    {
+      "role": "Cloud Engineer Intern",
+      "org": "Synergetics Cloud Consulting",
+      "when": "May 2025 – Aug 2025",
+      "location": "Mumbai, Maharashtra, India",
+      "desc": "Led a 3-member team delivering customer cloud projects, including batch migrations, and acted as the escalation point for troubleshooting and on-call issues."
+    }
+  ],
+  "education": [
+    {
+      "school": "University of Mumbai",
+      "degree": "Master of Science, Information Technology",
+      "when": "June 2026",
+      "desc": ""
+    },
+    {
+      "school": "Mulund College of Commerce",
+      "degree": "Bachelor of Science, Information Technology",
+      "when": "Jul 2022 – Apr 2025",
+      "desc": ""
+    }
+  ],
+  "certifications": [
+    "Azure Administrator Associate (AZ-104)",
+    "Google Associate Cloud Engineer",
+    "Azure AI Apps and Agents Developer Associate (AI-103)",
+    "GCP GenAI Leader",
+    "Azure Data Fundamentals (DP-900)",
+    "Security, Compliance and Identity Fundamentals (SC-900)",
+    "DevOps Fundamentals",
+    "AWS APAC Solutions Architecture Job Simulation",
+    "AWS Educate Introduction to Cloud 101"
+  ],
+  "featured": [
+    {
+      "name": "10,000 subscriptions and 350 servers migrated",
+      "tech": "Azure • Server replication • Batch migration",
+      "desc": "Delivered a migration batch covering 10,000 subscriptions and 350 servers, coordinating end-to-end execution, configuring replication for high availability and resolving batch issues during delivery.",
+      "url": "",
+      "label": ""
+    },
+    {
+      "name": "20% lower cloud costs",
+      "tech": "Cost optimisation • Architecture review",
+      "desc": "Cut a customer’s cloud costs by reviewing their tenant architecture and presenting optimisation recommendations to senior management.",
+      "url": "",
+      "label": ""
+    },
+    {
+      "name": "20+ customer projects",
+      "tech": "GCP • Azure • AWS",
+      "desc": "Managed deployments, configuration and operations across GCP, Azure and AWS tenants, handling P1 and P2 incidents end to end and restoring service within SLA.",
+      "url": "",
+      "label": ""
+    },
+    {
+      "name": "Stronger security scores",
+      "tech": "Defender for Cloud • RBAC • Cloud security",
+      "desc": "Improved customer security scores by remediating gaps and applying security best practices, with least-privilege access enforced through RBAC.",
+      "url": "",
+      "label": ""
+    }
+  ],
+  "linkedinUrl": "https://www.linkedin.com/in/sumit-c-0a677a240/"
+}
