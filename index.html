@@ -112,6 +112,8 @@ ul.feed time{color:var(--muted);white-space:nowrap}
 .skel{height:92px;border-radius:14px;background:var(--line);animation:p 1.2s infinite alternate}
 @keyframes p{to{opacity:.4}}
 
+.note{color:var(--muted);font-size:.88rem;margin:14px 0 0;max-width:60ch}
+
 /* contact */
 .panel{display:grid;gap:36px;padding:clamp(24px,5vw,56px);border-radius:28px;background:var(--tint)}
 @media (min-width:860px){.panel{grid-template-columns:1fr 1.1fr}}
@@ -264,20 +266,32 @@ function useGithub(user) {
     if (!ghOn(user)) { setState({ status: "none", repos: [], events: [] }); return; }
     let alive = true;
     const load = async () => {
+      const key = "gh-cache:" + user;
       try {
+        // reuse a fresh result so repeated page loads don’t use up GitHub’s anonymous rate limit (60/hour)
+        try {
+          const c = JSON.parse(localStorage.getItem(key) || "null");
+          if (c && Date.now() - c.t < 5 * 60 * 1000) { if (alive) setState(c.s); return; }
+        } catch (e1) { /* storage unavailable */ }
         const base = `https://api.github.com/users/${encodeURIComponent(user)}`;
         const [r, e] = await Promise.all([
           fetch(`${base}/repos?sort=pushed&per_page=30`),
           fetch(`${base}/events/public?per_page=10`).catch(() => null) // activity is optional
         ]);
         if (!r.ok) throw new Error("GitHub request failed (" + r.status + ")");
-        const repos = (await r.json()).filter(x => !x.fork)
-          .sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, 6);
-        const events = e && e.ok ? await e.json() : [];
-        if (alive) setState({ status: "live", repos, events });
+        const all = (await r.json()).filter(x => !x.fork);
+        const repos = [...all].sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, 6);
+        // fallback activity: the most recently pushed repositories (real data from the repo list)
+        const recent = [...all].sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at)).slice(0, 6)
+          .map(x => ({ id: x.id, name: x.name, url: x.html_url, at: x.pushed_at }));
+        const eventsOk = !!(e && e.ok);
+        const events = eventsOk ? await e.json() : [];
+        const st = { status: "live", repos, events, recent, eventsOk };
+        try { localStorage.setItem(key, JSON.stringify({ t: Date.now(), s: st })); } catch (e2) { /* ignore */ }
+        if (alive) setState(st);
       } catch (err) {
         console.warn("GitHub data could not be loaded:", err);
-        if (alive) setState({ status: "sample", repos: SAMPLE_REPOS, events: SAMPLE_EVENTS });
+        if (alive) setState({ status: "sample", repos: SAMPLE_REPOS, events: SAMPLE_EVENTS, recent: [], eventsOk: false });
       }
     };
     load();
@@ -361,9 +375,12 @@ function Repos({ gh }) {
 
 function Activity({ gh }) {
   if (gh.status === "loading") return html`<div class="skel"></div>`;
-  if (!gh.events.length) return html`<p class="lead">${gh.status === "sample" ? "Recent activity couldn’t load right now. Try again in a few minutes." : "No recent public activity."}</p>`;
-  return html`<ul class="feed">${gh.events.slice(0, 6).map(ev => html`
+  if (gh.events.length) return html`<ul class="feed">${gh.events.slice(0, 6).map(ev => html`
     <li key=${ev.id}><span>${LABELS[ev.type] || ev.type.replace("Event", "")} <strong>${ev.repo.name}</strong></span><time>${ago(ev.created_at)}</time></li>`)}</ul>`;
+  if (gh.recent && gh.recent.length) return html`<div>
+    <ul class="feed">${gh.recent.map(r => html`<li key=${r.id}><span>Pushed to <strong>${r.name}</strong></span><time>${ago(r.at)}</time></li>`)}</ul>
+    <p class="note">${gh.eventsOk ? "GitHub has no public events from the last 90 days, so this shows the most recent repository updates instead." : "GitHub’s activity feed couldn’t load, so this shows the most recent repository updates instead."}</p></div>`;
+  return html`<p class="lead">${gh.status === "sample" ? "Recent activity couldn’t load right now. Try again in a few minutes." : "No recent public activity."}</p>`;
 }
 
 /* Contact form: posts to your form service (Formspree) or falls back to a pre-filled email */
